@@ -275,26 +275,30 @@ LinkedList<T> LinkedList<T>::merge(const LinkedList<T>& other) const {
   // the function.
   LinkedList<T> merged;
 
-  // -----------------------------------------------------------
-  // TODO: Your code here!
-  // -----------------------------------------------------------
-  // Please implement this function according to the description
-  // above and in the instructions PDF.
+    while (true) {
+        if (left.head_->data <= right.head_->data) {
+            merged.pushBack(left.head_->data);
+            left.popFront();
+        } else {
+            merged.pushBack(right.head_->data);
+            right.popFront();
+        }
 
-  // Hints:
-  // 1. Assuming that the left and right lists are already sorted, remember
-  //    that the smallest items are already available at the front. You can
-  //    access them immediately.
-  // 2. Think of which item needs to be placed first in the merged list.
-  //    Then think about what item should be placed second. You need to
-  //    think carefully about which list to take from next after you take
-  //    each single item.
-  // 3. You can do this while walking down the left and right lists exactly
-  //    once. Do not loop over the lists multiple times. If you are doing
-  //    that, your implementation is probably already running in O(n^2)
-  //    time or worse, and not O(n).
-  // 4. Remember, DO NOT try to use insertOrdered here. That would be
-  //    very slow.
+        if (left.empty()) {
+            while (!right.empty()) {
+                merged.pushBack(right.head_->data);
+                right.popFront();
+            }
+        } else if (right.empty()) {
+            while (!left.empty()) {
+                merged.pushBack(left.head_->data);
+                left.popFront();
+            }
+        }
+
+        if (left.empty() && right.empty())
+            break;
+    }
 
   // -----------------------------------------------------------
 
