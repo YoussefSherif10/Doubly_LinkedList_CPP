@@ -128,6 +128,58 @@ void LinkedList<T>::insertOrdered(const T& newData) {
   // to update all next, prev, head_, and tail_ pointers as needed on your
   // new node or on those existing nodes that are adjacent to the new node.
 
+  Node *node = new Node(newData);   // new node to contain the data.
+
+  Node *thru = head_;
+  Node *ptr = tail_;
+
+    // insert in the first node
+    if (thru->data > newData){
+        // adjust the head
+        node->next = head_;
+        head_ = node;
+        node->prev = head_;
+
+        // get the next node to adjust its previous ptr
+        ptr = node->next;
+        ptr->prev = node;
+
+        size_++; // increment list size
+        return;
+    }
+    // insert at the end
+    else if (ptr->data <= newData){
+        // adjust the tail
+        node->prev = tail_;
+        tail_ = node;
+        node->next = nullptr;
+
+        // get the prev node to adjust its next ptr
+        thru = node->prev;
+        thru->next = node;
+
+        size_++;    //increment list size
+        return;
+    } else {
+        while (thru->next != nullptr) {
+            thru = thru->next;  // go to next node
+            if (thru->data > newData) {
+                // get the prev node
+                ptr = thru->prev;
+
+                // adjust the new node pointers
+                node->next = thru;
+                node->prev = ptr;
+
+                // adjust the next ptr in the prev. node
+                ptr->next = node;
+                thru->prev = node;
+
+                size_++;    // increment the size
+                return;
+            }
+        }
+    }
 }
 
 /********************************************************************
